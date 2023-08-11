@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -31,12 +30,27 @@ public class NoteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdNote);
     }
 
-    // Эндпоинт для получения всех заметок
     @GetMapping
-    public ResponseEntity<List<Note>> getAllNotes() {
-        List<Note> notes = noteRepository.findAll();
-        return ResponseEntity.ok(notes);
+    public String authPage() {
+        return "auth";
     }
+
+    @GetMapping("/login")
+    public String loginPage() {
+        return "login";
+    }
+
+    @GetMapping("/register")
+    public String registerPage() {
+        return "register";
+    }
+
+//    // Эндпоинт для получения всех заметок
+//    @GetMapping
+//    public ResponseEntity<List<Note>> getAllNotes() {
+//        List<Note> notes = noteRepository.findAll();
+//        return ResponseEntity.ok(notes);
+//    }
 
     // Эндпоинт для получения заметки по ID
     @GetMapping("/{id}")
