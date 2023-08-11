@@ -2,11 +2,14 @@ package com.example.NotesApp.controller;
 
 
 import com.example.NotesApp.model.Note;
+import com.example.NotesApp.model.User;
 import com.example.NotesApp.repository.NoteRepository;
+import com.example.NotesApp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -17,9 +20,12 @@ public class NoteController {
 
     private final NoteRepository noteRepository;
 
+    private final UserRepository userRepository;
+
     @Autowired
-    public NoteController(NoteRepository noteRepository) {
+    public NoteController(NoteRepository noteRepository, UserRepository userRepository) {
         this.noteRepository = noteRepository;
+        this.userRepository = userRepository;
     }
 
 
@@ -32,17 +38,55 @@ public class NoteController {
 
     @GetMapping
     public String authPage() {
+        System.out.println("перешло на началку");
         return "auth";
     }
 
     @GetMapping("/login")
     public String loginPage() {
+        System.out.println("перешло на логин");
         return "login";
+    }
+
+    @GetMapping("/notes")
+    public String mainPage() {
+        System.out.println("перешло на ноутс");
+        return "notes";
     }
 
     @GetMapping("/register")
     public String registerPage() {
+        System.out.println("перешло на регистр");
         return "register";
+    }
+
+    @PostMapping("/register")
+    public String registerUser(@RequestParam String username, @RequestParam String email, @RequestParam String password) {
+        System.out.println("создается новый тип");
+        User user = new User();
+        user.setUsername(username);
+        user.setEmail(email);
+        user.setPassword(password);
+        userRepository.save(user);
+        System.out.println("тип создался");
+        return "redirect:/notes"; // Перенаправляем на страницу входа
+    }
+
+    @PostMapping("/login")
+    public String login(@RequestParam String username, @RequestParam String password, Model model) {
+        System.out.println("идет проверка на типа в базе данных");
+        // Ваш код для аутентификации пользователя
+        // Здесь вы можете использовать Spring Security, например, через AuthenticationManager
+
+        // Пример: простая аутентификация
+        if ("user".equals(username) && "password".equals(password)) {
+            System.out.println("тип нашелся в базе");
+            return "redirect:/notes"; // Перенаправляем на страницу после успешного входа
+        } else {
+            System.out.println("тип не нашелся в базе");
+            model.addAttribute("error", "Invalid username or password");
+            return "login"; // Возвращаем на страницу логина с ошибкой
+        }
     }
 
 //    // Эндпоинт для получения всех заметок
