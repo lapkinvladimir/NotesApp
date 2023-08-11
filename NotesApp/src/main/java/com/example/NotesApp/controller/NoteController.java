@@ -28,6 +28,32 @@ public class NoteController {
         this.userRepository = userRepository;
     }
 
+    @PostMapping("/register")
+    public String registerUser(@RequestParam String username, @RequestParam String email, @RequestParam String password) {
+        System.out.println("создается новый тип");
+        User user = new User();
+        user.setUsername(username);
+        user.setEmail(email);
+        user.setPassword(password);
+        userRepository.save(user);
+        System.out.println("тип создался");
+        return "redirect:/notes"; // Перенаправляем на страницу входа
+    }
+
+    @PostMapping("/login")
+    public String login(@RequestParam String username, @RequestParam String password, Model model) {
+        System.out.println("идет проверка в базе данных");
+
+        User user = userRepository.findByUsername(username);
+        if (user != null && user.getPassword().equals(password)) {
+            System.out.println("пользователь найден в базе");
+            return "redirect:/notes"; // Перенаправляем на страницу после успешного входа
+        } else {
+            System.out.println("пользователь не найден в базе или неверный пароль");
+            model.addAttribute("error", "Invalid username or password");
+            return "login"; // Возвращаем на страницу логина с ошибкой
+        }
+    }
 
     // Эндпоинт для создания новой заметки
     @PostMapping
@@ -60,34 +86,7 @@ public class NoteController {
         return "register";
     }
 
-    @PostMapping("/register")
-    public String registerUser(@RequestParam String username, @RequestParam String email, @RequestParam String password) {
-        System.out.println("создается новый тип");
-        User user = new User();
-        user.setUsername(username);
-        user.setEmail(email);
-        user.setPassword(password);
-        userRepository.save(user);
-        System.out.println("тип создался");
-        return "redirect:/notes"; // Перенаправляем на страницу входа
-    }
 
-    @PostMapping("/login")
-    public String login(@RequestParam String username, @RequestParam String password, Model model) {
-        System.out.println("идет проверка на типа в базе данных");
-        // Ваш код для аутентификации пользователя
-        // Здесь вы можете использовать Spring Security, например, через AuthenticationManager
-
-        // Пример: простая аутентификация
-        if ("user".equals(username) && "password".equals(password)) {
-            System.out.println("тип нашелся в базе");
-            return "redirect:/notes"; // Перенаправляем на страницу после успешного входа
-        } else {
-            System.out.println("тип не нашелся в базе");
-            model.addAttribute("error", "Invalid username or password");
-            return "login"; // Возвращаем на страницу логина с ошибкой
-        }
-    }
 
 //    // Эндпоинт для получения всех заметок
 //    @GetMapping
