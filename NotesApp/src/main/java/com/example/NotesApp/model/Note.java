@@ -1,5 +1,6 @@
 package com.example.NotesApp.model;
 
+
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -50,3 +51,4 @@ public class Note {
         this.createdAt = createdAt;
     }
 }
+
