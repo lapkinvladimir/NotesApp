@@ -1,12 +1,110 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Authentication</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            min-height: 100vh;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            position: relative;
+            width: 1920px;
+            height: 100%;
+            background-color: #f0f0f0;
+        }
+
+        .image1 {
+            position: absolute;
+            left: 214px; /* Уменьшил на 60 пикселей */
+            top: 5px;
+        }
+
+        .image2 {
+            position: absolute;
+            left: 200px; /* Уменьшил на 60 пикселей */
+            top: 453px;
+        }
+
+        .text {
+            position: absolute;
+        }
+
+        .button {
+            display: inline;
+            background-color: transparent;
+            color: #000000;
+            font-size: 37pt;
+            border: none;
+            font-family: "Arial Rounded MT Bold", sans-serif;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .text1 {
+            left: 1300px; /* Уменьшил на 60 пикселей */
+            top: 66px;
+        }
+
+        .text2 {
+            left: 1520px; /* Уменьшил на 60 пикселей */
+            top: 66px;
+        }
+
+        .text3 {
+            font-size: 76.35pt;
+            text-align: center;
+            font-family: "Berlin Sans FB", sans-serif;
+            left: 428px; /* Уменьшил на 60 пикселей */
+            top: 200px;
+        }
+
+        .text4, .text5, .text6, .text7, .text8, .text9 {
+            font-size: 19.93pt;
+            font-family: "Berlin Sans FB", sans-serif;
+            left: 1231px; /* Уменьшил на 60 пикселей */
+        }
+        .text4 {
+            top: 483px;
+        }
+        .text5 {
+            top: 517px;
+        }
+        .text6 {
+            top: 680px;
+        }
+        .text7 {
+            top: 712px;
+        }
+        .text8 {
+            top: 888px;
+        }
+        .text9 {
+            top: 921px;
+        }
+
+    </style>
 </head>
 <body>
-<h2>Authentication</h2>
-<p>Choose an option:</p>
-<a href="/login">Login</a> |
-<a href="/register">Register</a>
+<div class="container">
+    <img class="image1" src="/img/FullLogo.png" alt="Logo" width="440" height="160">
+    <img class="image2" src="/img/Photo.png" alt="Image" width="930" height="663">
+    <a class="button text text1" href="/register">Sign Up</a>
+    <a class="button text text2" href="/login">Sign In</a>
+    <div class="text text3">Take control of work tasks<br>and bring order to life</div>
+    <div class="text text4">LET YOUR TO-DO LIST BE A DONE LIST</div>
+    <div class="text text5">Gather notes, tasks,<br>and your schedule together<br>to make it easier to<br>get things done</div>
+    <div class="text text6">GET EVERYTHING DONE ON TIME</div>
+    <div class="text text7">Create and distribute tasks within notes,<br>set up due dates and reminders,<br>and flag important ones with flags.<br>You won't miss anything<br>important anymore</div>
+    <div class="text text8">FIND WHAT YOU NEED QUICKLY</div>
+    <div class="text text9">Find what you need at the right time<br>with powerful and flexible<br>search capabilities</div>
+</div>
 </body>
 </html>

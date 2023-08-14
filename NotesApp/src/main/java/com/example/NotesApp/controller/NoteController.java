@@ -1,6 +1,7 @@
 package com.example.NotesApp.controller;
 
 
+import com.example.NotesApp.mail.EmailService;
 import com.example.NotesApp.model.Note;
 import com.example.NotesApp.model.User;
 import com.example.NotesApp.repository.NoteRepository;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.context.Context;
 
 import java.util.Optional;
 
@@ -22,10 +24,14 @@ public class NoteController {
 
     private final UserRepository userRepository;
 
+    private final EmailService emailService;
+
+
     @Autowired
-    public NoteController(NoteRepository noteRepository, UserRepository userRepository) {
+    public NoteController(NoteRepository noteRepository, UserRepository userRepository, EmailService emailService) {
         this.noteRepository = noteRepository;
         this.userRepository = userRepository;
+        this.emailService = emailService;
     }
 
     @PostMapping("/register")
@@ -54,13 +60,19 @@ public class NoteController {
     public String handleRecoveryForm(@RequestParam String email, Model model) {
         User user = userRepository.findByEmail(email);
         if (user != null) {
-            // Здесь можно выполнять дополнительные действия, например, отправку письма с восстановлением пароля
-            return "redirect:/notes"; // Перенаправляем на страницу notes после успешного восстановления
+            String subject = "Password Recovery";
+            Context context = new Context();
+            context.setVariable("username", user.getUsername());
+            context.setVariable("login", user.getUsername());
+            context.setVariable("password", user.getPassword());
+            emailService.sendTemplatedEmail(email, subject, "test.html", context);
+            return "login";
         } else {
-            model.addAttribute("error", "Invalid username or password");
-            return "/recover"; // Перенаправляем с ошибкой, если email не найден
+            model.addAttribute("error", "Email not found");
+            return "recover";
         }
     }
+
 
 
     // Эндпоинт для создания новой заметки
@@ -69,6 +81,7 @@ public class NoteController {
         Note createdNote = noteRepository.save(note);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdNote);
     }
+
 
     @GetMapping
     public String authPage() {
@@ -133,4 +146,5 @@ public class NoteController {
         noteRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
 }
