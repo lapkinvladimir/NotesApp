@@ -58,7 +58,7 @@ public class NoteController {
             return "redirect:/notes"; // Перенаправляем на страницу notes после успешного восстановления
         } else {
             model.addAttribute("error", "Invalid username or password");
-            return "redirect:/recover"; // Перенаправляем с ошибкой, если email не найден
+            return "/recover"; // Перенаправляем с ошибкой, если email не найден
         }
     }
 
