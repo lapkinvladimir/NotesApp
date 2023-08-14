@@ -69,8 +69,8 @@ public class NoteController {
     }
 
     @GetMapping("/login")
-    public String loginPage() {
-        System.out.println("перешло на логин");
+    public String loginPage(Model model) {
+        model.addAttribute("error", null); // Добавляем атрибут "error" в модель
         return "login";
     }
 
