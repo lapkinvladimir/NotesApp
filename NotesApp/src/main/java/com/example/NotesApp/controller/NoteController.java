@@ -30,30 +30,38 @@ public class NoteController {
 
     @PostMapping("/register")
     public String registerUser(@RequestParam String username, @RequestParam String email, @RequestParam String password) {
-        System.out.println("создается новый тип");
         User user = new User();
         user.setUsername(username);
         user.setEmail(email);
         user.setPassword(password);
         userRepository.save(user);
-        System.out.println("тип создался");
         return "redirect:/notes"; // Перенаправляем на страницу входа
     }
 
     @PostMapping("/login")
     public String login(@RequestParam String username, @RequestParam String password, Model model) {
-        System.out.println("идет проверка в базе данных");
 
         User user = userRepository.findByUsername(username);
         if (user != null && user.getPassword().equals(password)) {
-            System.out.println("пользователь найден в базе");
             return "redirect:/notes"; // Перенаправляем на страницу после успешного входа
         } else {
-            System.out.println("пользователь не найден в базе или неверный пароль");
             model.addAttribute("error", "Invalid username or password");
             return "login"; // Возвращаем на страницу логина с ошибкой
         }
     }
+
+    @PostMapping("/recover")
+    public String handleRecoveryForm(@RequestParam String email, Model model) {
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            // Здесь можно выполнять дополнительные действия, например, отправку письма с восстановлением пароля
+            return "redirect:/notes"; // Перенаправляем на страницу notes после успешного восстановления
+        } else {
+            model.addAttribute("error", "Invalid username or password");
+            return "redirect:/recover"; // Перенаправляем с ошибкой, если email не найден
+        }
+    }
+
 
     // Эндпоинт для создания новой заметки
     @PostMapping
@@ -64,25 +72,28 @@ public class NoteController {
 
     @GetMapping
     public String authPage() {
-        System.out.println("перешло на началку");
         return "auth";
+    }
+
+    @GetMapping("/recover")
+    public String recoverPage(Model model) {
+        model.addAttribute("error", null);
+        return "recover";
     }
 
     @GetMapping("/login")
     public String loginPage(Model model) {
-        model.addAttribute("error", null); // Добавляем атрибут "error" в модель
+        model.addAttribute("error", null);
         return "login";
     }
 
     @GetMapping("/notes")
     public String mainPage() {
-        System.out.println("перешло на ноутс");
         return "notes";
     }
 
     @GetMapping("/register")
     public String registerPage() {
-        System.out.println("перешло на регистр");
         return "register";
     }
 

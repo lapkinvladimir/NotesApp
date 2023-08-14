@@ -98,11 +98,20 @@
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
         }
         .error-message {
-            color: #ff0000 !important; /* Цвет текста ошибки (красный) */
-            font-weight: bold; /* Жирный шрифт для большей заметности */
-            font-size: 17px !important;; /* Увеличьте размер шрифта по вашему усмотрению */
-            margin-top: 30px !important;; /* Добавьте отступ сверху, чтобы сообщение было ниже */
-            text-align: center; /* Центрирование текста */
+            color: #ff0000 !important;
+            font-weight: bold;
+            font-size: 17px !important;
+            margin-top: 30px !important;
+            text-align: center;
+        }
+        .error-message a {
+            color: #ff0000; /* Цвет ссылки (красный) */
+            text-decoration: none; /* Убираем подчеркивание */
+        }
+
+        /* Стиль для ссылки при наведении */
+        .error-message a:hover {
+            text-decoration: darkred; /* Добавляем подчеркивание при наведении */
         }
     </style>
 </head>
@@ -124,7 +133,9 @@
             <button class="button" type="submit">Login</button>
         </div>
         <!-- Отображение ошибки -->
-        <p th:if="${error}" class="error-message">Invalid username or password</p>
+        <a href="/recover"><p th:if="${error}" class="error-message">
+            Forgot password?
+            </a>
     </form>
 </div>
 </body>

@@ -47,4 +47,3 @@ public class WebSecurityConfig {
                 .build();
     }
 }
-
