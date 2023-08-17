@@ -14,6 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.context.Context;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -61,11 +63,11 @@ public class NoteController {
         User user = userRepository.findByEmail(email);
         if (user != null) {
             String subject = "Password Recovery";
-            Context context = new Context();
-            context.setVariable("username", user.getUsername());
-            context.setVariable("login", user.getUsername());
-            context.setVariable("password", user.getPassword());
-            emailService.sendTemplatedEmail(email, subject, "test.html", context);
+            Map<String, Object> modelMap = new HashMap<>();
+            modelMap.put("username", user.getUsername());
+            modelMap.put("login", user.getUsername());
+            modelMap.put("password", user.getPassword());
+            emailService.sendTemplatedEmail(email, subject, "email-template", modelMap); // Используйте "test" вместо "test.html"
             return "login";
         } else {
             model.addAttribute("error", "Email not found");

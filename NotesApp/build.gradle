@@ -27,6 +27,7 @@ dependencies {
     implementation 'com.sun.activation:javax.activation:1.2.0'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-freemarker'
 }
 
 tasks.named('test') {
