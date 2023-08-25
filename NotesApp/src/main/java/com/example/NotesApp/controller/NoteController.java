@@ -6,6 +6,8 @@ import com.example.NotesApp.model.Note;
 import com.example.NotesApp.model.User;
 import com.example.NotesApp.repository.NoteRepository;
 import com.example.NotesApp.repository.UserRepository;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,10 +49,13 @@ public class NoteController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam String username, @RequestParam String password, Model model) {
+    public String login(@RequestParam String username, @RequestParam String password, Model model, HttpServletResponse response) {
 
         User user = userRepository.findByUsername(username);
         if (user != null && user.getPassword().equals(password)) {
+            Cookie usernameCookie = new Cookie("username", username);
+            usernameCookie.setMaxAge(86400); // Настройте срок действия куки по вашим требованиям
+            response.addCookie(usernameCookie);
             return "redirect:/notes"; // Перенаправляем на страницу после успешного входа
         } else {
             model.addAttribute("error", "Invalid username or password");
