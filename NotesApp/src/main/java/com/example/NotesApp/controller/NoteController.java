@@ -7,6 +7,7 @@ import com.example.NotesApp.model.User;
 import com.example.NotesApp.repository.NoteRepository;
 import com.example.NotesApp.repository.UserRepository;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.thymeleaf.context.Context;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,6 +56,14 @@ public class NoteController {
 
         User user = userRepository.findByUsername(username);
         if (user != null && user.getPassword().equals(password)) {
+            if (user.getSelectedAvatar() == null) {
+                user.setSelectedAvatar("/img/logo.png"); // Дефолтный URL для логотипа
+            }
+            if (user.getSelectedBackground() == null) {
+                user.setSelectedBackground("/img/background-image.jpg"); // Дефолтный URL для фонового изображения
+            }
+            userRepository.save(user); // Сохраняем обновленные данные пользователя
+            // Остальной код остается без изменений
             Cookie usernameCookie = new Cookie("username", username);
             usernameCookie.setMaxAge(86400); // Настройте срок действия куки по вашим требованиям
             response.addCookie(usernameCookie);
@@ -62,6 +73,62 @@ public class NoteController {
             return "login"; // Возвращаем на страницу логина с ошибкой
         }
     }
+
+    @PostMapping("/notes")
+    public ResponseEntity<String> saveImages(@RequestBody Map<String, String> imageUrls, HttpServletRequest request) {
+        String selectedAvatar = imageUrls.get("selectedAvatar");
+        String selectedBackground = imageUrls.get("selectedBackground");
+
+        String baseUrl = request.getRequestURL().toString();
+        String basePath = baseUrl.substring(0, baseUrl.length() - request.getRequestURI().length()) + request.getContextPath();
+
+        Cookie[] cookies = request.getCookies();
+        String username = null;
+
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("username")) {
+                    username = cookie.getValue();
+                    break;
+                }
+            }
+        }
+
+        if (username != null) {
+            User user = userRepository.findByUsername(username);
+            if (user != null) {
+                if (selectedAvatar != null) {
+                    selectedAvatar = selectedAvatar.replace(basePath, "");
+                } else {
+                    selectedAvatar = user.getSelectedAvatar();
+                }
+
+                if (selectedBackground != null) {
+                    selectedBackground = selectedBackground.replace(basePath, "");
+                } else {
+                    selectedBackground = user.getSelectedBackground();
+                }
+
+                user.setSelectedAvatar(selectedAvatar);
+                user.setSelectedBackground(selectedBackground);
+                userRepository.save(user);
+
+                return ResponseEntity.ok("Images saved successfully");
+            } else {
+                return ResponseEntity.badRequest().body("User not found");
+            }
+        } else {
+            return ResponseEntity.badRequest().body("Username not found in cookies");
+        }
+    }
+
+
+
+
+
+
+
+
 
     @PostMapping("/recover")
     public String handleRecoveryForm(@RequestParam String email, Model model) {
@@ -79,8 +146,6 @@ public class NoteController {
             return "recover";
         }
     }
-
-
 
     // Эндпоинт для создания новой заметки
     @PostMapping
@@ -108,15 +173,47 @@ public class NoteController {
     }
 
     @GetMapping("/notes")
-    public String mainPage() {
-        return "notes";
+    public String getUserData(HttpServletRequest request, Model model) {
+        Cookie[] cookies = request.getCookies();
+        String username = null;
+
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("username")) {
+                    username = cookie.getValue();
+                    break;
+                }
+            }
+        }
+
+        if (username != null) {
+            User user = userRepository.findByUsername(username);
+
+            if (user != null) {
+                String selectedAvatar = user.getSelectedAvatar();
+                String selectedBackground = user.getSelectedBackground();
+                model.addAttribute("selectedAvatar", selectedAvatar);
+                model.addAttribute("selectedBackground", selectedBackground);
+                System.out.println(selectedAvatar);
+                System.out.println(selectedBackground);
+                return "notes";
+            } else {
+                // Возвращайте какое-то сообщение об ошибке, если нужно
+            }
+        }
+
+        // Возвращайте какое-то сообщение об ошибке, если нужно
+        return null;
     }
+
+
+
+
 
     @GetMapping("/register")
     public String registerPage() {
         return "register";
     }
-
 
 
 //    // Эндпоинт для получения всех заметок

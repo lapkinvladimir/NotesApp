@@ -12,6 +12,26 @@ public class User {
     private String email;
     private String password;
 
+    private String selectedAvatar; // Добавляем поле для хранения выбранной аватарки
+    private String selectedBackground; // Добавляем поле для хранения выбранного фона
+
+    // Геттеры и сеттеры для новых полей
+    public String getSelectedAvatar() {
+        return selectedAvatar;
+    }
+
+    public void setSelectedAvatar(String selectedAvatar) {
+        this.selectedAvatar = selectedAvatar;
+    }
+
+    public String getSelectedBackground() {
+        return selectedBackground;
+    }
+
+    public void setSelectedBackground(String selectedBackground) {
+        this.selectedBackground = selectedBackground;
+    }
+
     public Long getId() {
         return id;
     }
