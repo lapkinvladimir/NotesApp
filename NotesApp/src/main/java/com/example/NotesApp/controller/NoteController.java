@@ -15,17 +15,70 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
-
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 @Controller
-@RequestMapping("/")
+//@RequestMapping("/")
 public class NoteController {
+
+    @GetMapping
+    public String authPage() {
+        return "auth";
+    }
+
+    @GetMapping("/register")
+    public String registerPage() {
+        return "register";
+    }
+
+    @GetMapping("/recover")
+    public String recoverPage(Model model) {
+        model.addAttribute("error", null);
+        return "recover";
+    }
+
+    @GetMapping("/login")
+    public String loginPage(Model model) {
+        model.addAttribute("error", null);
+        return "login";
+    }
+
+    @GetMapping("/notes")
+    public String getUserData(HttpServletRequest request, Model model) {
+        Cookie[] cookies = request.getCookies();
+        String username = null;
+
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("username")) {
+                    username = cookie.getValue();
+                    break;
+                }
+            }
+        }
+
+        if (username != null) {
+            User user = userRepository.findByUsername(username);
+
+            if (user != null) {
+                String selectedAvatar = user.getSelectedAvatar();
+                String selectedBackground = user.getSelectedBackground();
+                model.addAttribute("selectedAvatar", selectedAvatar);
+                model.addAttribute("selectedBackground", selectedBackground);
+                System.out.println(selectedAvatar);
+                System.out.println(selectedBackground);
+                return "notes";
+            } else {
+                // Возвращайте какое-то сообщение об ошибке, если нужно
+            }
+        }
+
+        // Возвращайте какое-то сообщение об ошибке, если нужно
+        return null;
+    }
+
 
     private final NoteRepository noteRepository;
 
@@ -74,7 +127,7 @@ public class NoteController {
         }
     }
 
-    @PostMapping("/notes")
+    @PutMapping("/notes")
     public ResponseEntity<String> saveImages(@RequestBody Map<String, String> imageUrls, HttpServletRequest request) {
         String selectedAvatar = imageUrls.get("selectedAvatar");
         String selectedBackground = imageUrls.get("selectedBackground");
@@ -152,103 +205,6 @@ public class NoteController {
     public ResponseEntity<Note> createNote(@RequestBody Note note) {
         Note createdNote = noteRepository.save(note);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdNote);
-    }
-
-
-    @GetMapping
-    public String authPage() {
-        return "auth";
-    }
-
-    @GetMapping("/recover")
-    public String recoverPage(Model model) {
-        model.addAttribute("error", null);
-        return "recover";
-    }
-
-    @GetMapping("/login")
-    public String loginPage(Model model) {
-        model.addAttribute("error", null);
-        return "login";
-    }
-
-    @GetMapping("/notes")
-    public String getUserData(HttpServletRequest request, Model model) {
-        Cookie[] cookies = request.getCookies();
-        String username = null;
-
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("username")) {
-                    username = cookie.getValue();
-                    break;
-                }
-            }
-        }
-
-        if (username != null) {
-            User user = userRepository.findByUsername(username);
-
-            if (user != null) {
-                String selectedAvatar = user.getSelectedAvatar();
-                String selectedBackground = user.getSelectedBackground();
-                model.addAttribute("selectedAvatar", selectedAvatar);
-                model.addAttribute("selectedBackground", selectedBackground);
-                System.out.println(selectedAvatar);
-                System.out.println(selectedBackground);
-                return "notes";
-            } else {
-                // Возвращайте какое-то сообщение об ошибке, если нужно
-            }
-        }
-
-        // Возвращайте какое-то сообщение об ошибке, если нужно
-        return null;
-    }
-
-
-
-
-
-    @GetMapping("/register")
-    public String registerPage() {
-        return "register";
-    }
-
-
-//    // Эндпоинт для получения всех заметок
-//    @GetMapping
-//    public ResponseEntity<List<Note>> getAllNotes() {
-//        List<Note> notes = noteRepository.findAll();
-//        return ResponseEntity.ok(notes);
-//    }
-
-    // Эндпоинт для получения заметки по ID
-    @GetMapping("/{id}")
-    public ResponseEntity<Note> getNoteById(@PathVariable Long id) {
-        Optional<Note> note = noteRepository.findById(id);
-        return note.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
-    }
-
-    // Эндпоинт для обновления заметки
-    @PutMapping("/{id}")
-    public ResponseEntity<Note> updateNote(@PathVariable Long id, @RequestBody Note updatedNote) {
-        if (!noteRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        updatedNote.setId(id);
-        Note savedNote = noteRepository.save(updatedNote);
-        return ResponseEntity.ok(savedNote);
-    }
-
-    // Эндпоинт для удаления заметки
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteNote(@PathVariable Long id) {
-        if (!noteRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        noteRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
     }
 
 }

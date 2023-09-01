@@ -32,7 +32,7 @@ public class WebSecurityConfig {
                 )
                 .csrf().disable()
                 .headers().frameOptions().disable().and()
-                .logout().disable();                            //это для H2 нужно
+                .logout().disable();                                //это для H2 нужно
 
         return http.build();
     }
