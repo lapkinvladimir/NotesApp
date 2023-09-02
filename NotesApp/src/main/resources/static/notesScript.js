@@ -4,7 +4,9 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
+
 const username = getCookie("username");
+
 if (username) {
     document.getElementById("username").textContent = username;
 } else {
@@ -47,24 +49,78 @@ function handleUsernameClick(event) {
 }
 
 function logout() {
+    document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"; //по другому никак(
     window.location.href = "/";
 }
+
+const profileWindow = document.getElementById("profileWindow");
+
+function openProfile() {
+    closeSettingsTab();
+    closeBigSettingsWindow();
+
+
+
+    // более сложная версия то что внизу разкоментить
+
+    // const profileUsername = document.getElementById('profileUsername').getAttribute('data-username');
+    // const profileEmail = document.getElementById('profileEmail').getAttribute('data-email');
+    //
+    // document.getElementById('profileUsername').textContent = profileUsername;
+    // document.getElementById('profileEmail').textContent = profileEmail;
+
+    //    <p><strong>Username:</strong> <span id="profileUsername" th:attr="data-username=${profileUsername}"></span></p>
+    //     <p><strong>Email:</strong> <span id="profileEmail" th:attr="data-email=${profileEmail}"></span></p>
+
+    // а это добавить в хтмл
+
+
+
+    profileWindow.style.display = "block";
+    setTimeout(() => {
+        profileWindow.style.transform = "translate(-50%, -50%) scale(1)";
+        profileWindow.style.opacity = 1;
+    }, 0);
+}
+
+
+
+
+function closeProfile() {
+    profileWindow.style.transform = "translate(-50%, -50%) scale(0.5)";
+
+    requestAnimationFrame(() => {
+        profileWindow.style.opacity = 0; // Устанавливаем прозрачность на 0
+    });
+
+    setTimeout(() => {
+        profileWindow.style.display = "none";
+    }, 300);
+}
+
 
 const bigSettingsWindow = document.getElementById("bigSettingsWindow");
 
 // Открытие большого окна настроек
 function openBigSettingsWindow() {
     closeSettingsTab(); // Закрыть маленькое окно настроек
+    closeProfile();
     bigSettingsWindow.style.display = "block";
     arrow.style.transform = "rotate(0)"; // Перевернуть стрелочку обратно
     setTimeout(() => {
         bigSettingsWindow.style.transform = "translate(-50%, -50%) scale(1)";
+        bigSettingsWindow.style.opacity = 1;
     }, 0);
 }
 
 // Закрытие большого окна настроек
 function closeBigSettingsWindow() {
     bigSettingsWindow.style.transform = "translate(-50%, -50%) scale(0.5)";
+
+    requestAnimationFrame(() => {
+        bigSettingsWindow.style.opacity = 0; // Устанавливаем прозрачность на 0
+    });
+
     setTimeout(() => {
         bigSettingsWindow.style.display = "none";
     }, 300);
