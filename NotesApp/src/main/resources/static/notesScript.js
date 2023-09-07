@@ -144,6 +144,14 @@ const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric
 // Форматируем дату и вставляем в элемент
 dateElement.textContent = currentDate.toLocaleDateString('en-US', options);
 
+// Блюр бг
+function applyBlur() {
+    const blurValue = document.getElementById('blur-slider').value;
+    const backgroundContainer = document.querySelector('.background-container');
+    backgroundContainer.style.filter = `blur(${blurValue}px)`;
+}
+
+
 
 
 function saveSelectedLogos(avatarUrl) {

@@ -15,6 +15,13 @@
     <div class="arrow" id="arrow"></div>
 </div>
 
+
+<div class="coordinate-text">
+    <p><strong>Good evening, <span id="user" th:text="${profileUsername}"></span>!</strong></p>
+</div>
+
+<div class="coordinate-date"></div>
+
 <div class="settings-tab" id="settingsTab">
     <div class="tab-button" onclick="openProfile()">Profile</div>
     <div class="tab-button" onclick="openBigSettingsWindow()">Settings</div>
@@ -22,7 +29,6 @@
 </div>
 
 <div class="profile-window" id="profileWindow">
-<!--    <h2>User Profile</h2>-->
     <p><h2>User Profile</h2></p>
     <span class="close-button" onclick="closeProfile()">&#10006;</span>
     <p><strong>Username:</strong> <span id="profileUsername" th:text="${profileUsername}"></span></p>
@@ -49,6 +55,9 @@
             <img src="/img/back2.jpg" alt="Background 2" class="background-image" onclick="selectBackground(this)">
         </div>
     </div>
+    <h2>Настройте блюр заднего фона</h2>
+    <input type="range" id="blur-slider" min="0" max="10" step="0.1" value="0" onchange="applyBlur()" class="custom-slider">
+</div>
     <script src="notesScript.js"></script>
 </body>
 </html>
