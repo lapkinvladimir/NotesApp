@@ -1,4 +1,4 @@
- /* Общие стили */
+/* Общие стили */
 body {
     margin: 0;
     padding: 0;
@@ -15,7 +15,6 @@ body {
     background-repeat: no-repeat;
     z-index: -1;
 }
-
 
 
 /* Адаптивные стили */
@@ -92,31 +91,48 @@ body {
     background-color: #adadad;
 }
 
- .profile-window {
-     width: 300px;
-     height: 200px;
-     display: none;
-     position: fixed;
-     top: 50%;
-     left: 50%;
-     transform: translate(-50%, -50%) scale(0.5);
-     background-color: #7a7a7a;
-     padding: 20px;
-     border-radius: 5px;
-     color: white;
-     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-     z-index: 1;
-     transition: transform 0.3s ease, opacity 0.3s ease;
-     opacity: 0;
- }
+.profile-window {
+    width: 300px;
+    height: 200px;
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.5);
+    background-color: #7a7a7a;
+    padding: 20px;
+    border-radius: 5px;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    z-index: 1;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+}
 
- .profile-window p {
-     margin-top: 35px; /* Добавляем маргин сверху к тексту */
- }
+.profile-window p {
+    margin-top: 35px; /* Добавляем маргин сверху к тексту */
+}
 
 
+.coordinate-text {
+    color: white;
+    font-size: 30px;
+    position: absolute;
+    top: 30px;
+    left: 400px;
+}
 
- .big-settings-window {
+.coordinate-date {
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    position: absolute;
+    top: 60px;
+    right: 77px;
+}
+
+
+.big-settings-window {
     width: 1000px;
     height: 500px;
     display: none;

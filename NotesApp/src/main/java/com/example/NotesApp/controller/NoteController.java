@@ -65,18 +65,15 @@ public class NoteController {
             if (user != null) {
                 String selectedAvatar = user.getSelectedAvatar();
                 String selectedBackground = user.getSelectedBackground();
+                String email = user.getEmail();
                 model.addAttribute("selectedAvatar", selectedAvatar);
                 model.addAttribute("selectedBackground", selectedBackground);
-                System.out.println(selectedAvatar);
-                System.out.println(selectedBackground);
+                model.addAttribute("profileUsername", username);
+                model.addAttribute("profileEmail", email);
                 return "notes";
-            } else {
-                // Возвращайте какое-то сообщение об ошибке, если нужно
             }
         }
-
-        // Возвращайте какое-то сообщение об ошибке, если нужно
-        return null;
+        return "redirect:/login";
     }
 
 
@@ -95,11 +92,16 @@ public class NoteController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@RequestParam String username, @RequestParam String email, @RequestParam String password) {
+    public String registerUser(@RequestParam String username, @RequestParam String email, @RequestParam String password, HttpServletResponse response) {
+        Cookie usernameCookie = new Cookie("username", username);
+        usernameCookie.setMaxAge(86400); // сутки
+        response.addCookie(usernameCookie);
         User user = new User();
         user.setUsername(username);
         user.setEmail(email);
         user.setPassword(password);
+        user.setSelectedBackground("/img/background-image.jpg");
+        user.setSelectedAvatar("/img/logo.png");
         userRepository.save(user);
         return "redirect:/notes"; // Перенаправляем на страницу входа
     }

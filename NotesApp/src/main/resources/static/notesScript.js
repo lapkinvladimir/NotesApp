@@ -132,6 +132,18 @@ function closeSettingsTab() {
     settingsTab.style.pointerEvents = "none";
 }
 
+// Время
+const dateElement = document.querySelector('.coordinate-date');
+
+// Получаем текущую дату
+const currentDate = new Date();
+
+// Настройка локали для отображения дня недели и месяца на английском
+const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
+// Форматируем дату и вставляем в элемент
+dateElement.textContent = currentDate.toLocaleDateString('en-US', options);
+
 
 
 function saveSelectedLogos(avatarUrl) {
@@ -154,7 +166,6 @@ function saveSelectedLogos(avatarUrl) {
 }
 
 function saveSelectedBackgrounds(backgroundUrl) {
-    console.log("сейв вызывался")
     // Отправляем данные на сервер
     fetch("/notes", {
         method: "PUT",
@@ -172,25 +183,20 @@ function saveSelectedBackgrounds(backgroundUrl) {
         .catch(error => {
             console.error("Error saving images:", error);
         });
-    console.log("сейв законичлся")
 }
 
 function selectAvatar(element) {
     const selectedAvatar = element.src;
     const avatarImage = document.querySelector(".logo");
     avatarImage.style.backgroundImage = `url('${selectedAvatar}')`;
-    console.log("ава поменялась на сайте")
     saveSelectedLogos(selectedAvatar, null); // Вызываем функцию для сохранения
-    console.log("сейв прошел")
 }
 
 function selectBackground(element) {
     const selectedBackground = element.src;
     const backgroundContainer = document.querySelector(".background-container");
     backgroundContainer.style.backgroundImage = `url('${selectedBackground}')`;
-    console.log("бг поменялся на сайте");
     saveSelectedBackgrounds(selectedBackground); // Вызываем функцию для сохранения
-    console.log("сейв прошел");
 }
 
 
