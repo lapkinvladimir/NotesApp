@@ -7,6 +7,21 @@
     <title>Auth Page</title>
 </head>
 <body>
+
+<div class="rectangle"></div>
+
+<div class="rectangle-notes" onclick="openNotePopup()">
+    <div class="add-notes"></div>
+</div>
+
+<div class="note-popup" id="notePopup">
+    <div class="close-button" onclick="closeNotePopup()">×</div>
+    <div class="note-content">
+        <textarea placeholder="Введите заметку..."></textarea>
+    </div>
+    <button class="save-button" onclick="closeNotePopup()">Сохранить</button>
+</div>
+
 <div class="background-container" th:style="'background-image: url(' + ${selectedBackground} + ');'"></div>
 <div class="black-rectangle"></div>
 <div class="logo-container" onclick="toggleSettingsTab()">
@@ -14,7 +29,6 @@
     <div class="username" id="username" onclick="handleUsernameClick(event)"></div>
     <div class="arrow" id="arrow"></div>
 </div>
-
 
 <div class="coordinate-text">
     <p><strong>Good evening, <span id="user" th:text="${profileUsername}"></span>!</strong></p>

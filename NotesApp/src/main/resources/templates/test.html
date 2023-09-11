@@ -3,74 +3,57 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Пример профильного окна</title>
   <style>
-    /* Общие стили */
-    body {
-      margin: 0;
-      padding: 0;
-      background-image: url("/static/background-image.jpg");
-      background-size: cover;
-      background-repeat: no-repeat;
-    }
-
-    /* Адаптивные стили */
-    .black-rectangle {
-      width: 322px;
-      height: 100vh;
-      background-color: black;
-      border-right: 2px solid white;
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-
-    .logo-container {
-      position: absolute;
-      top: 40px;
-      left: 42px;
-      display: flex;
-      align-items: center;
-    }
-
-    .logo {
-      width: 40px;
-      height: 40px;
-      background-image: url('https://api.iconify.design/bi/person-fill.svg');
-      background-size: cover;
-      border-radius: 50%;
-      margin-right: 5px;
-      filter: invert(1);
-    }
-
-    .username {
+    .profile-window {
+      width: 320px;
+      max-width: 90%;
+      height: auto;
+      display: block; /* Отображать окно сразу при загрузке */
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #333;
+      padding: 20px;
+      border-radius: 10px;
       color: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+      z-index: 1000;
+      transition: transform 0.3s ease;
+    }
+
+    .profile-window h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .profile-window p {
       font-size: 16px;
-      margin-left: 5px;
+      line-height: 1.5;
+    }
+
+    .profile-window .close-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 20px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .profile-window .close-button:hover {
+      color: #ff5050;
     }
   </style>
-  <title>Адаптивный сайт</title>
 </head>
 <body>
-<div class="black-rectangle"></div>
-<div class="logo-container">
-  <div class="logo"></div>
-  <div class="username" id="username"></div>
+<div class="profile-window" id="profile-window">
+  <span class="close-button" id="close-profile">&times;</span>
+  <h2>Профиль пользователя</h2>
+  <p>Имя: John Doe</p>
+  <p>Email: johndoe@example.com</p>
+  <p>Город: New York</p>
 </div>
-
-<script>
-  // Чтение куки и отображение имени пользователя
-  function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-  }
-
-  const username = getCookie("username");
-  if (username) {
-    document.getElementById("username").textContent = username;
-  } else {
-    document.getElementById("username").textContent = "Username: Guest"; // Если куки с именем пользователя отсутствует
-  }
-</script>
 </body>
 </html>

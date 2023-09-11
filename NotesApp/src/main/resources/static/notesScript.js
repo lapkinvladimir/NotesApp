@@ -151,6 +151,16 @@ function applyBlur() {
     backgroundContainer.style.filter = `blur(${blurValue}px)`;
 }
 
+const notePopup = document.getElementById('notePopup');
+
+function openNotePopup() {
+    notePopup.classList.add('show');
+}
+
+function closeNotePopup() {
+    notePopup.classList.remove('show');
+}
+
 
 
 
