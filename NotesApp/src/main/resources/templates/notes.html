@@ -14,6 +14,7 @@
     <div class="add-notes"></div>
 </div>
 
+
 <div class="note-popup" id="notePopup">
     <div class="close-button" onclick="closeNotePopup()">×</div>
     <div class="note-content">
@@ -24,11 +25,16 @@
 
 <div class="background-container" th:style="'background-image: url(' + ${selectedBackground} + ');'"></div>
 <div class="black-rectangle"></div>
+
+
+
 <div class="logo-container" onclick="toggleSettingsTab()">
     <img class="logo" th:style="'background-image: url(' + ${selectedAvatar} + ');'" onclick="handleLogoClick(event)">
     <div class="username" id="username" onclick="handleUsernameClick(event)"></div>
     <div class="arrow" id="arrow"></div>
 </div>
+
+<a href="allnotes" class="redirect-link">Notes</a>
 
 <div class="coordinate-text">
     <p><strong>Good evening, <span id="user" th:text="${profileUsername}"></span>!</strong></p>

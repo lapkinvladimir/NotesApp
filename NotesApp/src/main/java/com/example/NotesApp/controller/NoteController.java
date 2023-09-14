@@ -45,6 +45,11 @@ public class NoteController {
         return "login";
     }
 
+    @GetMapping("/allnotes")
+    public String allnotes() {
+        return "allnotes";
+    }
+
     @GetMapping("/notes")
     public String getUserData(HttpServletRequest request, Model model) {
         Cookie[] cookies = request.getCookies();

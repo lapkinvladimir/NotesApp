@@ -151,15 +151,24 @@ function applyBlur() {
     backgroundContainer.style.filter = `blur(${blurValue}px)`;
 }
 
+let noteNullText = '';
+let noteText;
+
 const notePopup = document.getElementById('notePopup');
 
 function openNotePopup() {
     notePopup.classList.add('show');
+    const textarea = notePopup.querySelector('textarea');
+    textarea.value = noteNullText;
 }
 
+
 function closeNotePopup() {
+    const textarea = notePopup.querySelector('textarea');
+    noteText = textarea.value; // Сохраняем текст заметки
     notePopup.classList.remove('show');
 }
+
 
 
 
