@@ -17,11 +17,16 @@
 
 <div class="note-popup" id="notePopup">
     <div class="close-button" onclick="closeNotePopup()">×</div>
-    <div class="note-content">
-        <textarea placeholder="Введите заметку..."></textarea>
-    </div>
-    <button class="save-button" onclick="closeNotePopup()">Сохранить</button>
+    <form id="noteForm">
+        <div class="note-content">
+            <textarea id="text"  name="title" placeholder="Введите заголовок..."></textarea>
+            <textarea id="noteContent" name="content" placeholder="Введите заметку..."></textarea>
+        </div>
+        <button type="button" class="save-button" onclick="saveNote()">Сохранить</button>
+    </form>
 </div>
+
+
 
 <div class="background-container" th:style="'background-image: url(' + ${selectedBackground} + ');'"></div>
 <div class="black-rectangle"></div>

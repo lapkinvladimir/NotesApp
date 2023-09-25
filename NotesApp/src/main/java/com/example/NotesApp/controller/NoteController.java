@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -134,6 +135,24 @@ public class NoteController {
         }
     }
 
+    @PostMapping("/notes")
+    public String saveNote(@RequestBody Map<String, String> requestBody) {
+        String title = requestBody.get("title");
+        String content = requestBody.get("content");
+
+        // Создайте новую запись в базе данных
+        Note note = new Note();
+        note.setTitle(title);
+        note.setContent(content);
+        note.setCreatedAt(LocalDateTime.now());
+
+        // Сохраните запись
+        noteRepository.save(note);
+
+        return "redirect:/"; // Перенаправление на главную страницу после сохранения
+    }
+
+
     @PutMapping("/notes")
     public ResponseEntity<String> saveImages(@RequestBody Map<String, String> imageUrls, HttpServletRequest request) {
         String selectedAvatar = imageUrls.get("selectedAvatar");
@@ -205,13 +224,6 @@ public class NoteController {
             model.addAttribute("error", "Email not found");
             return "recover";
         }
-    }
-
-    // Эндпоинт для создания новой заметки
-    @PostMapping
-    public ResponseEntity<Note> createNote(@RequestBody Note note) {
-        Note createdNote = noteRepository.save(note);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdNote);
     }
 
 }

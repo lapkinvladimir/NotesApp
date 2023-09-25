@@ -170,7 +170,28 @@ function closeNotePopup() {
 }
 
 
+function saveNote() {
+    const content = document.getElementById("noteContent").value;
 
+    fetch("/notes", {
+        method: "POST",
+        body: JSON.stringify({ content }), // Отправляем данные в формате JSON
+        headers: {
+            "Content-Type": "application/json" // Указываем, что отправляем JSON
+        }
+    })
+        .then(response => {
+            if (response.ok) {
+                console.log("Заметка успешно сохранена!");
+                closeNotePopup();
+            } else {
+                console.error("Произошла ошибка при сохранении заметки.");
+            }
+        })
+        .catch(error => {
+            console.error("Произошла ошибка при отправке запроса:", error);
+        });
+}
 
 
 function saveSelectedLogos(avatarUrl) {
