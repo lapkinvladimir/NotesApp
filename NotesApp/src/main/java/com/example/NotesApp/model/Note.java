@@ -18,6 +18,7 @@ public class Note {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
+
     public String getEmail() {
         return email;
     }
