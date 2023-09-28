@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -46,15 +47,19 @@ public class NoteController {
         return "login";
     }
 
-    @GetMapping("/allnotes")
-    public String allnotes() {
-        return "allnotes";
-    }
-
     @GetMapping("/notes")
     public String getUserData(HttpServletRequest request, Model model) {
         Cookie[] cookies = request.getCookies();
         String username = null;
+
+        List<Note> notes = noteRepository.findAll();
+        for (Note note : notes) {
+            System.out.println("ID: " + note.getId());
+            System.out.println("Title: " + note.getTitle());
+            System.out.println("Content: " + note.getContent());
+            System.out.println("Created At: " + note.getCreatedAt());
+        }
+        model.addAttribute("notes", notes);
 
         if (cookies != null) {
             for (Cookie cookie : cookies) {
@@ -136,12 +141,36 @@ public class NoteController {
     }
 
     @PostMapping("/notes")
-    public String saveNote(@RequestBody Map<String, String> requestBody) {
+    public String saveNote(@RequestBody Map<String, String> requestBody, HttpServletRequest request) {
+
+        Note note = new Note();
+
+        Cookie[] cookies = request.getCookies();
+        String username = null;
+
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("username")) {
+                    username = cookie.getValue();
+                    break;
+                }
+            }
+        }
+
+        if (username != null) {
+            User user = userRepository.findByUsername(username);
+
+            if (user != null) {
+                String email = user.getEmail();
+                note.setEmail(email);
+            }
+        }
+
+
         String title = requestBody.get("title");
         String content = requestBody.get("content");
 
         // Создайте новую запись в базе данных
-        Note note = new Note();
         note.setTitle(title);
         note.setContent(content);
         note.setCreatedAt(LocalDateTime.now());

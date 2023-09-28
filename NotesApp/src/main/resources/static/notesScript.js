@@ -103,6 +103,7 @@ const bigSettingsWindow = document.getElementById("bigSettingsWindow");
 
 // Открытие большого окна настроек
 function openBigSettingsWindow() {
+    closeNoteWindow();
     closeSettingsTab(); // Закрыть маленькое окно настроек
     closeProfile();
     bigSettingsWindow.style.display = "block";
@@ -171,11 +172,12 @@ function closeNotePopup() {
 
 
 function saveNote() {
+    const title = document.getElementById("text").value;
     const content = document.getElementById("noteContent").value;
 
     fetch("/notes", {
         method: "POST",
-        body: JSON.stringify({ content }), // Отправляем данные в формате JSON
+        body: JSON.stringify({ title, content }), // Отправляем и title, и content в формате JSON
         headers: {
             "Content-Type": "application/json" // Указываем, что отправляем JSON
         }
@@ -192,6 +194,7 @@ function saveNote() {
             console.error("Произошла ошибка при отправке запроса:", error);
         });
 }
+
 
 
 function saveSelectedLogos(avatarUrl) {
@@ -246,6 +249,33 @@ function selectBackground(element) {
     backgroundContainer.style.backgroundImage = `url('${selectedBackground}')`;
     saveSelectedBackgrounds(selectedBackground); // Вызываем функцию для сохранения
 }
+
+
+const note = document.getElementById('note');
+
+// Метод для открытия окна
+function openNoteWindow() {
+    closeBigSettingsWindow(); // Закрыть другие окна (если это необходимо)
+    closeSettingsTab(); // Закрыть маленькое окно настроек
+    closeProfile();
+    note.style.transform = 'translate(-50%, -50%) scale(1)';
+    note.style.opacity = '1';
+}
+
+// Метод для закрытия окна
+function closeNoteWindow() {
+    note.style.transform = 'translate(-50%, -50%) scale(0)';
+    note.style.opacity = '0';
+}
+
+// Добавляем обработчики событий
+const redirectLink = document.querySelector('.redirect-link');
+const closeButton = document.getElementById('notes-close-button');
+
+redirectLink.addEventListener('click', openNoteWindow);
+closeButton.addEventListener('click', closeNoteWindow);
+
+
 
 
 

@@ -27,20 +27,55 @@ body {
     border-right: 2px solid white;
 }
 
-.redirect-link{
+.all-notes {
+    position: absolute;
+    width: 1300px;
+    height: 700px;
+    background-color: #282828;
+    border-radius: 20px;
+    border: 2px solid white;
+    top: 500px;
+    left: 1100px;
+    transform: translate(-50%, -50%) scale(0); /* Изменено для анимации */
+    opacity: 0; /* Изменено для анимации */
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    display: block; /* Добавлено для отображения */
+}
+
+
+.redirect-link {
     position: absolute;
     margin-top: -832px;
     margin-left: 43px;
-    color: #ffffff; /* Цвет текста */
-    text-decoration: none; /* Убираем подчеркивание текста ссылки */
-    transition: color 0.3s ease; /* Добавляем анимацию для цвета текста при наведении */
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s ease;
     cursor: pointer;
 }
 
 .redirect-link:hover {
-    color: #afafaf; /* Изменяем цвет текста при наведении */
-    text-decoration: none; /* Убираем подчеркивание при наведении */
+    color: #afafaf;
 }
+
+.notes-close-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.every-note {
+    width: 200px;
+    height: 300px;
+    background-color: #5A5A5A;
+    position: absolute;
+    border-radius: 20px;
+}
+
+
 
 .logo-container {
     position: absolute;
@@ -396,6 +431,5 @@ textarea {
     flex: 0 0 auto; /* Отключили увеличение элементов по ширине */
     margin-right: 10px; /* Добавили отступ между элементами */
 }
-
 
 
