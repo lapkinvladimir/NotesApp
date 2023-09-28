@@ -41,8 +41,10 @@
 
 <a class="redirect-link">Notes</a>
 <div class="all-notes" id="note">
-    <!-- Содержимое прямоугольника -->
     <span class="notes-close-button" id="notes-close-button">✖</span>
+    <div th:each="note : ${notes}" class="every-note">
+        <p th:text="${note.content}"></p>
+    </div>
 </div>
 
 <div class="coordinate-text">

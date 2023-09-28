@@ -31,6 +31,8 @@ body {
     position: absolute;
     width: 1300px;
     height: 700px;
+    max-height: 700px; /* Максимальная высота */
+    overflow-y: scroll; /* Включить вертикальный ползунок, если контент превышает высоту */
     background-color: #282828;
     border-radius: 20px;
     border: 2px solid white;
@@ -40,8 +42,33 @@ body {
     opacity: 0; /* Изменено для анимации */
     transition: transform 0.3s ease, opacity 0.3s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
-    display: block; /* Добавлено для отображения */
+    display: flex; /* Добавлено для отображения */
+    flex-wrap: wrap;
 }
+.all-notes::-webkit-scrollbar {
+    width: 12px; /* Ширина полосы прокрутки */
+    border-radius: 6px; /* Закругленные углы для полосы прокрутки */
+}
+
+.all-notes::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Цвет фона полосы прокрутки */
+    border-radius: 6px; /* Закругленные углы для фона полосы прокрутки */
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.all-notes::-webkit-scrollbar-thumb {
+    border: 2px solid #f1f1f1;
+    background: #888; /* Цвет полосы прокрутки */
+    border-radius: 6px; /* Закругленные углы для полосы прокрутки */
+}
+
+.all-notes::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Цвет полосы прокрутки при наведении */
+    border-radius: 6px; /* Закругленные углы для полосы прокрутки при наведении */
+}
+
+
 
 
 .redirect-link {
@@ -59,7 +86,7 @@ body {
 }
 
 .notes-close-button {
-    position: absolute;
+    position: absolute; /* шо это шо абсолют все равно он поддается скроллу */
     top: 20px;
     right: 20px;
     color: white;
@@ -71,8 +98,8 @@ body {
     width: 200px;
     height: 300px;
     background-color: #5A5A5A;
-    position: absolute;
     border-radius: 20px;
+    margin: 20px;
 }
 
 
