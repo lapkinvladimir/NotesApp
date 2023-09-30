@@ -4,6 +4,7 @@ package com.example.NotesApp.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "notes")
@@ -17,6 +18,19 @@ public class Note {
     private String content;
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+    // Добавьте поле для отформатированной даты
+    @Transient // Чтобы это поле не сохранялось в базе данных
+    private String createdAtFormatted;
+
+    // Геттер для отформатированной даты
+    public String getCreatedAtFormatted() {
+        if (createdAt != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yy HH:mm");
+            return createdAt.format(formatter);
+        }
+        return "";
+    }
 
 
     public String getEmail() {

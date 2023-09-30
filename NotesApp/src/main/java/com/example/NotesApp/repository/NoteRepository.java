@@ -22,4 +22,5 @@ public interface NoteRepository extends JpaRepository<Note, Long> {
 
     List<Note> findAllByOrderByCreatedAtAsc();
 
+    List<Note> findByEmail(String email);
 }

@@ -10,7 +10,6 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,13 +53,6 @@ public class NoteController {
         String username = null;
 
         List<Note> notes = noteRepository.findAll();
-        for (Note note : notes) {
-            System.out.println("ID: " + note.getId());
-            System.out.println("Title: " + note.getTitle());
-            System.out.println("Content: " + note.getContent());
-            System.out.println("Created At: " + note.getCreatedAt());
-            System.out.println("Email: " + note.getEmail());
-        }
         model.addAttribute("notes", notes);
 
         if (cookies != null) {
@@ -235,13 +227,6 @@ public class NoteController {
             return ResponseEntity.badRequest().body("Username not found in cookies");
         }
     }
-
-
-
-
-
-
-
 
 
     @PostMapping("/recover")

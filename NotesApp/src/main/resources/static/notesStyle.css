@@ -100,7 +100,33 @@ body {
     background-color: #5A5A5A;
     border-radius: 20px;
     margin: 20px;
+    color: white; /* Цвет текста внутри заметки */
 }
+
+.note-header {
+    text-align: center;
+    padding: 10px;
+    background-color: #030000; /* Цвет заголовка внутри заметки */
+    border-radius: 20px 20px 0 0; /* Закругленные верхние углы */
+}
+
+.note-header h2 {
+    margin: 0;
+    word-wrap: break-word; /* Для поддержки переноса слов */
+}
+
+.note-timestamp {
+    font-size: 12px;
+    margin-top: 200px;
+    position: fixed;
+
+}
+
+.note-content {
+    padding: 10px;
+}
+
+
 
 
 
@@ -215,11 +241,11 @@ body {
 }
 
 .note-content {
-    width: 80%;
     height: 60%;
-    margin-top: 20px;
+    margin-top: -10px;
     display: flex;
     flex-direction: column;
+    word-wrap: break-word;
 }
 
 textarea {
@@ -234,7 +260,7 @@ textarea {
 }
 
 #text {
-    line-height: 25px;
+    line-height: 23px;
     display: block;
     width: 220px;
     height: 40px;
@@ -244,16 +270,16 @@ textarea {
     font-size: 16px;
 }
 
-.save-button {
+    .save-button {
     background-color: #333;
     color: white;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    margin-bottom: 20px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin-top: 30px;
+    margin-top: 15px;
+    margin-left: 65px;
 }
 
 .save-button:hover {

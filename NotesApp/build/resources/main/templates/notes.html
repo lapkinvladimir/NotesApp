@@ -43,9 +43,16 @@
 <div class="all-notes" id="note">
     <span class="notes-close-button" id="notes-close-button">✖</span>
     <div th:each="note : ${notes}" class="every-note">
-        <p th:text="${note.content}"></p>
+        <div class="note-header">
+            <h2 th:text="${note.title}"></h2>
+        </div>
+        <div class="note-content">
+            <p th:text="${note.content}"></p>
+            <p class="note-timestamp" th:text="${note.createdAtFormatted}"></p>
+        </div>
     </div>
 </div>
+
 
 <div class="coordinate-text">
     <p><strong>Good evening, <span id="user" th:text="${profileUsername}"></span>!</strong></p>

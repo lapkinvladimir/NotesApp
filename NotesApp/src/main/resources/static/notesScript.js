@@ -152,15 +152,17 @@ function applyBlur() {
     backgroundContainer.style.filter = `blur(${blurValue}px)`;
 }
 
-let noteNullText = '';
 let noteText;
 
 const notePopup = document.getElementById('notePopup');
 
 function openNotePopup() {
     notePopup.classList.add('show');
-    const textarea = notePopup.querySelector('textarea');
-    textarea.value = noteNullText;
+    const title = notePopup.querySelector('#text');
+    const noteContent = notePopup.querySelector('#noteContent');
+    title.value = ''; // Очистить значение поля заголовка
+    noteContent.value = ''; // Очистить значение поля заметки
+
 }
 
 
@@ -169,6 +171,28 @@ function closeNotePopup() {
     noteText = textarea.value; // Сохраняем текст заметки
     notePopup.classList.remove('show');
 }
+
+const titleInput = document.getElementById('text');
+const maxTitleLength = 16;
+
+titleInput.addEventListener('input', function () {
+    if (this.value.length > maxTitleLength) {
+        this.value = this.value.slice(0, maxTitleLength); // Обрезаем текст до 16 символов
+        alert('Длина заголовка не может превышать 16 символов');
+    }
+});
+
+const contentInput = document.getElementById('noteContent');
+const maxContentLength = 150;
+
+contentInput.addEventListener('input', function () {
+    if (this.value.length > maxContentLength) {
+        this.value = this.value.slice(0, maxContentLength); // Обрезаем текст до 16 символов
+        alert('Длина заметки не может превышать 150 символов');
+    }
+});
+
+
 
 
 function saveNote() {
