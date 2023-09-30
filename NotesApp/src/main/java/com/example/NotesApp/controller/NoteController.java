@@ -52,8 +52,6 @@ public class NoteController {
         Cookie[] cookies = request.getCookies();
         String username = null;
 
-        List<Note> notes = noteRepository.findAll();
-        model.addAttribute("notes", notes);
 
         if (cookies != null) {
             for (Cookie cookie : cookies) {
@@ -71,6 +69,8 @@ public class NoteController {
                 String selectedAvatar = user.getSelectedAvatar();
                 String selectedBackground = user.getSelectedBackground();
                 String email = user.getEmail();
+                List<Note> notes = noteRepository.findByEmail(email);
+                model.addAttribute("notes", notes);
                 model.addAttribute("selectedAvatar", selectedAvatar);
                 model.addAttribute("selectedBackground", selectedBackground);
                 model.addAttribute("profileUsername", username);
